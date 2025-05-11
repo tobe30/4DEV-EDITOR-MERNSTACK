@@ -6,7 +6,7 @@ import { generateTokenAndSetCookie } from "../lib/utils/generateToken.js";
 
 export const register = async (req, res) => {
     try {
-        const {email, password} = req.body 
+        const {username, email, password} = req.body 
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)){
@@ -28,6 +28,7 @@ export const register = async (req, res) => {
 
             const newUser = new User({
                 email,
+                username,
                 password:hashedPassword
             })
 
@@ -38,6 +39,8 @@ export const register = async (req, res) => {
                 res.status(201).json({
                     _id: newUser._id,
                     email:newUser.email,
+                    username: newUser.username,
+
                 })
             }else{
                 res.status(400).json({ error: "Invalid user data" });
@@ -51,7 +54,7 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
     try {
-        try {
+      
             const { email, password } = req.body;
             const user = await User.findOne({ email });
         
@@ -59,21 +62,18 @@ export const login = async (req, res) => {
             const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
             if (!user || !isPasswordCorrect) {
               return res.status(400).json({ error: "Invalid username or password" }); // Add return to prevent further execution
-            }
-        
-            
+            }      
         
             // Send success response
+            generateTokenAndSetCookie(user._id, res);
             return res.status(200).json({
               _id: user._id,
               email: user.email,
-            });
-          } catch (error) {
+            });     
+          
+    } catch (error) {
             console.error("Error in login controller", error.message);
             return res.status(500).json({ error: "An error occurred during login" }); // Add return here as well
-          }
-    } catch (error) {
-        
     }
 }
 
@@ -83,6 +83,16 @@ export const logout = async (req, res) => {
         res.status(200).json({message:"Logged out successfully"})
     } catch (error) {
       console.error("Error in login controller", error.message);
+      res.status(500).json({message:"Internal server error"})
+    }
+}
+
+export const getMe = async (req, res) =>{
+    try {
+        const user = await User.findById(req.user._id).select("-password")
+        res.status(200).json(user);
+    } catch (error) {
+      console.error("Error in getme controller", error.message);
       res.status(500).json({message:"Internal server error"})
     }
 }

@@ -3,6 +3,8 @@ import mongoose from "mongoose"
 import dotenv from "dotenv"
 import authRoutes from "./routes/auth.routes.js";
 import projectRoutes from "./routes/project.routes.js";
+import cookieParser from "cookie-parser";
+
 
 
 
@@ -29,8 +31,10 @@ const PORT = process.env.PORT || 5000;
 
 //step 3
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // For form submissions
+app.use(cookieParser());// step 4: cookie parser middleware
 app.use("/api/auth", authRoutes)
-app.use("/api/project", projectRoutes)
+app.use("/api/projects", projectRoutes)
 
 
 // step 1: server setup

@@ -2,20 +2,30 @@ import Project from "../models/project.model.js";
 import User from "../models/user.model.js";
 
 export const create = async (req, res) => {
-    try {
-        const { title, html, css, js } = req.body;
+  const { html, css, js, title } = req.body;
 
-        const newProject = new Project({
-            title,
-            html,
-            css,
-            js
-        });
+  try {
+    const newProject = await Project.create({
+      userId: req.user._id,
+      html,
+      css,
+      js,
+      title,
+    });
 
-        await newProject.save();
-        res.status(201).json(newProject);
-    } catch (error) {
-        console.error("Error in createProject controller:", error.message);
-        res.status(500).json({ error: "Internal server error" });
-    }
+    res.status(201).json(newProject);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to save project' });
+  }
 };
+
+export const getProject = async (req, res) => {
+    try {
+   const project = await Project.find({ userId: req.user._id }).sort({ createdAt: -1 });
+    if (!project) return res.status(404).json({ error: 'Project not found' });
+    res.json(project);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch project' });
+  }
+}

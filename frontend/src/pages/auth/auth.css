@@ -1,0 +1,16 @@
+.form-control.custom-input {
+  background-color: #1e1e2f;
+  color: white;
+  border: 1px solid #2a2d3a;
+}
+
+.form-control.custom-input:focus {
+  border-color: #9333ea;
+  box-shadow: 0 0 0 0.15rem rgba(147, 51, 234, 0.3);
+  background-color: #1e1e2f;
+  color: white;
+}
+
+.form-control.custom-input::placeholder {
+  color: #888;
+}
