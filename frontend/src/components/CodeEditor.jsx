@@ -73,43 +73,48 @@ const CodeEditor = () => {
   
 
   return (
-    <div className="code-editor-container mt-4 mb-5">
-      <div className="editor-header d-flex justify-content-between align-items-center p-3">
-        <h6 className="mb-0 text-white">
-          <i className="bi bi-code help"></i> Code Editor
-          <span className="badge bg-purple ms-2 text-uppercase">{activeTab}</span>
-        </h6>
-        <div className="d-flex align-items-center flex-wrap gap-2">
-          <div className="col-auto">
-            <div className="input-group input-group-sm project-title-input" style={{ maxWidth: "160px" }}>
-              <span className="input-group-text bg-dark border-0 text-white">
-      <i className="bi bi-terminal"></i>
-    </span>
-           <input
-            type="text"
-            className="form-control bg-dark text-white form-control-sm"
-            placeholder="Project Title"
-            value={project.title}
-            onChange={(e) => setProject({ ...project, title: e.target.value })}
-            style={{ maxWidth: '200px' }}
-          />
-          </div>
-          </div>
-          <button
-            className="btn btn-success btn-sm"
-            disabled={!project.title || isPending}
-            onClick={() => createProject({ title: project.title, html, css, js })}
-          >
-            {isPending ? "Saving..." : "Save Project"}
-          </button>
-          <button className="copy btn-sm me-2" onClick={copyCode}>
-            <i className="bi bi-clipboard"></i> Copy
-          </button>
-          <button className="btn btn-purple btn-sm" onClick={updatePreview}>
-            <i className="bi bi-play-fill"></i> Run
-          </button>
-        </div>
-      </div>
+     <>
+    <h5 className="text-white mb-4 mt-4 fw-semibold">Code Editor</h5>
+    
+    <div className="code-editor-container mt-3 mb-3">
+     <div className="editor-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center p-3 gap-3">
+  <h6 className="mb-0 text-white">
+    <i className="bi bi-code help"></i> Code Editor
+    <span className="badge bg-purple ms-2 text-uppercase">{activeTab}</span>
+  </h6>
+
+  <div className="d-flex flex-wrap gap-2 ">
+    <div className="project-title-input input-group input-group-sm mb-1" style={{ maxWidth: "100%" }}>
+      <span className="input-group-text bg-dark border-0 text-white">
+        <i className="bi bi-terminal"></i>
+      </span>
+      <input
+        type="text"
+        className="form-control bg-dark text-white border-0"
+        placeholder="Project Title"
+        value={project.title}
+        onChange={(e) => setProject({ ...project, title: e.target.value })}
+      />
+    </div>
+
+    <button
+      className="btn btn-success btn-sm"
+      disabled={!project.title || isPending}
+      onClick={() => createProject({ title: project.title, html, css, js })}
+    >
+      {isPending ? "Saving..." : "Save Project"}
+    </button>
+
+    <button className="copy btn-sm btn-outline-light" onClick={copyCode}>
+      <i className="bi bi-clipboard"></i> Copy
+    </button>
+
+    <button className="btn btn-purple btn-sm" onClick={updatePreview}>
+      <i className="bi bi-play-fill"></i> Run
+    </button>
+  </div>
+</div>
+
 
       <div className="d-flex bg-dark text-white">
         {['html', 'css', 'js'].map((tab) => (
@@ -171,6 +176,7 @@ const CodeEditor = () => {
         Write HTML, CSS, and JS and see it live! Earn +50 XP for completing this challenge.
       </div>
     </div>
+    </>
   );
 };
 

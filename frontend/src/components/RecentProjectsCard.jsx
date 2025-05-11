@@ -22,6 +22,8 @@ const RecentProjectsCard = () => {
         {isLoading && <p className="text1">Loading...</p>}
         {isError && <p className="text-danger">{error.message}</p>}
 
+         {!isLoading && projects?.length === 0 && <p className='text-center my-4'>No projects yet 👻</p>}
+
         {projects
   .filter((p) => p && p.title) // Ensures only valid objects
   .slice(0, 3)

@@ -1,5 +1,5 @@
-import express from "express"
 import path from "path";
+import express from "express"
 import mongoose from "mongoose"
 import dotenv from "dotenv"
 import authRoutes from "./routes/auth.routes.js";
@@ -39,16 +39,10 @@ app.use("/api/auth", authRoutes)
 app.use("/api/projects", projectRoutes);
 
 if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "/frontend/build")));
+    app.use(express.static(path.join(__dirname, "/frontend/dist")));
     app.get("*", (req, res) => {
         res.sendFile(
-            path.join(__dirname, "/frontend/build/index.html"),
-            (err) => {
-                if (err) {
-                    res.status(err.status).end();
-                }
-            }
-        );
+            path.resolve(__dirname, "frontend", "dist", "index.html"));
     })
 }
 
