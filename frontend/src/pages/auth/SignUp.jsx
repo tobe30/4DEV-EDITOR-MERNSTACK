@@ -27,9 +27,9 @@ const Signup = () => {
       }
       
     },
-   onSuccess: () => {
+   onSuccess: async () => {
 			// toast.success("Account created successfully");
-			queryClient.invalidateQueries({ queryKey: ["authUser"] });
+		await	queryClient.invalidateQueries({ queryKey: ["authUser"] });
      		navigate("/"); // Redirect to the home page
 		}
   });
