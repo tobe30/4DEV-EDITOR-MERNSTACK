@@ -1,4 +1,5 @@
 import express from "express"
+import path from "path";
 import mongoose from "mongoose"
 import dotenv from "dotenv"
 import authRoutes from "./routes/auth.routes.js";
@@ -28,14 +29,28 @@ const connect = async () => {
     })
 
 const PORT = process.env.PORT || 5000;
+const __dirname = path.resolve();
 
 //step 3
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // For form submissions
 app.use(cookieParser());// step 4: cookie parser middleware
 app.use("/api/auth", authRoutes)
-app.use("/api/projects", projectRoutes)
+app.use("/api/projects", projectRoutes);
 
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "/frontend/build")));
+    app.get("*", (req, res) => {
+        res.sendFile(
+            path.join(__dirname, "/frontend/build/index.html"),
+            (err) => {
+                if (err) {
+                    res.status(err.status).end();
+                }
+            }
+        );
+    })
+}
 
 // step 1: server setup
 app.listen(PORT, () => {
