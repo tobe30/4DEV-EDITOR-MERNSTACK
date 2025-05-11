@@ -1,7 +1,7 @@
 import Sidebar from "./components/SideBar"
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Dashboard from "./pages/dashboard";
-import Signup from "./pages/auth/signup";
+import Signup from "./pages/auth/SignUp";
 import Login from "./pages/auth/LoginPage";
 import { useQuery } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
