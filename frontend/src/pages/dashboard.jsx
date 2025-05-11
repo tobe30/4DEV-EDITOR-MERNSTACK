@@ -1,5 +1,5 @@
 import React from 'react';
-import XPCard from '../components/XPcard';
+import XPCard from '../components/XPCard';
 import RecentProjectsCard from '../components/RecentProjectsCard';
 import ActiveQuestsCard from '../components/ActiveQuestsCard';
 import LeaderboardCard from '../components/LeaderboardCard';
